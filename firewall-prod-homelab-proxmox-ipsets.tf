@@ -78,16 +78,6 @@ resource "proxmox_virtual_environment_firewall_ipset" "public-lbs" {
   }
 }
 
-resource "proxmox_virtual_environment_firewall_ipset" "proxy" {
-  name    = "proxy"
-  comment = "(Terraform) Holds the proxy VM IP."
-
-  cidr {
-    name    = "192.168.1.42"
-    comment = "The proxy VM"
-  }
-}
-
 resource "proxmox_virtual_environment_firewall_ipset" "manage" {
   name    = "manage"
   comment = "(Terraform) Holds the management IPs. Devices that have administrator permissions."
@@ -141,16 +131,6 @@ resource "proxmox_virtual_environment_firewall_ipset" "prox" {
   cidr {
     name    = "192.168.1.204"
     comment = "prox-5.sgenov.dev"
-  }
-}
-
-resource "proxmox_virtual_environment_firewall_ipset" "plex" {
-  name    = "plex"
-  comment = "(Terraform) Holds the plex VM IP."
-
-  cidr {
-    name    = "192.168.1.20"
-    comment = "The plex VM."
   }
 }
 
