@@ -101,6 +101,10 @@ resource "proxmox_virtual_environment_firewall_ipset" "manage" {
     name    = "192.168.4.0/24"
     comment = "Management LAN. Dirrect connection to Vault Router on last port. This is a physical backdoor."
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "proxmox_virtual_environment_firewall_ipset" "prox" {
@@ -131,6 +135,10 @@ resource "proxmox_virtual_environment_firewall_ipset" "prox" {
   cidr {
     name    = "192.168.1.204"
     comment = "prox-5.sgenov.dev"
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
 
