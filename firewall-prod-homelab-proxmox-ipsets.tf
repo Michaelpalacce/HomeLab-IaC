@@ -38,3 +38,184 @@ resource "proxmox_virtual_environment_firewall_ipset" "rfc-1918" {
     name = "192.168.0.0/16"
   }
 }
+
+resource "proxmox_virtual_environment_firewall_ipset" "public-lbs" {
+  name    = "public-lbs"
+  comment = "(Terraform) The LBs that the proxy VM communicates with."
+
+  # Order is important, otherwise will force replacement
+  cidr {
+    name    = "192.168.1.10"
+    comment = "Excalidraw. Dashboard for drawing."
+  }
+  cidr {
+    name    = "192.168.1.11"
+    comment = "It-Tools. Helpful tools for it administration."
+  }
+  cidr {
+    name    = "192.168.1.12"
+    comment = "Cyberchef. Helpful tools for it administration."
+  }
+  cidr {
+    name    = "192.168.1.13"
+    comment = "Mealie. Self-hosted recipies."
+  }
+  cidr {
+    name    = "192.168.1.6"
+    comment = "My website. sgenov.dev"
+  }
+  cidr {
+    name    = "192.168.1.7"
+    comment = "Wallabag. Self hosted pocket alternative."
+  }
+  cidr {
+    name    = "192.168.1.8"
+    comment = "Paperless-NGX. For document storage."
+  }
+  cidr {
+    name    = "192.168.1.9"
+    comment = "Firefly. Budgeting software."
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_ipset" "proxy" {
+  name    = "proxy"
+  comment = "(Terraform) Holds the proxy VM IP."
+
+  cidr {
+    name    = "192.168.1.42"
+    comment = "The proxy VM"
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_ipset" "manage" {
+  name    = "manage"
+  comment = "(Terraform) Holds the management IPs. Devices that have administrator permissions."
+
+  cidr {
+    name    = "10.1.0.169"
+    comment = "Phone on wifi."
+  }
+
+  cidr {
+    name    = "10.1.235.154"
+    comment = "Macbook Air M4"
+  }
+
+  cidr {
+    name    = "10.1.236.134"
+    comment = "PC connected to router."
+  }
+
+  cidr {
+    name    = "192.168.4.0/24"
+    comment = "Management LAN. Dirrect connection to Vault Router on last port. This is a physical backdoor."
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_ipset" "prox" {
+  name    = "prox"
+  comment = "(Terraform) Holds the proxmox cluster IPs"
+
+  cidr {
+    name    = "192.168.1.200"
+    comment = "prox-1.sgenov.dev"
+  }
+
+  cidr {
+    name    = "192.168.1.201"
+    comment = "prox-2.sgenov.dev"
+  }
+
+  cidr {
+    name    = "192.168.1.202"
+    comment = "prox-3.sgenov.dev"
+  }
+
+  # This is not in use
+  cidr {
+    name    = "192.168.1.203"
+    comment = "prox-4.sgenov.dev"
+  }
+
+  cidr {
+    name    = "192.168.1.204"
+    comment = "prox-5.sgenov.dev"
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_ipset" "plex" {
+  name    = "plex"
+  comment = "(Terraform) Holds the plex VM IP."
+
+  cidr {
+    name    = "192.168.1.20"
+    comment = "The plex VM."
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
+  name    = "k3s"
+  comment = "(Terraform) Holds all the IPs of the VMs where k3s will be installeHolds all the IPs of the VMs where k3s will be installed"
+
+  cidr {
+    name    = "192.168.1.242"
+    comment = ""
+  }
+
+  cidr {
+    name    = "192.168.1.247"
+    comment = ""
+  }
+
+  cidr {
+    name    = "192.168.1.55"
+    comment = ""
+  }
+
+  cidr {
+    name    = "192.168.1.56"
+    comment = ""
+  }
+
+  cidr {
+    name    = "192.168.1.57"
+    comment = ""
+  }
+
+  cidr {
+    name    = "192.168.1.78"
+    comment = ""
+  }
+
+  cidr {
+    name    = "192.168.1.83"
+    comment = ""
+  }
+
+  cidr {
+    name    = "192.168.1.89"
+    comment = ""
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_ipset" "cloudflare" {
+  name    = "cloudflare"
+  comment = "(Terraform) Holds the publicly avialable cloudflare IPs. https://www.cloudflare.com/ips-v4"
+
+  cidr { name = "103.21.244.0/22" }
+  cidr { name = "103.22.200.0/22" }
+  cidr { name = "103.31.4.0/22" }
+  cidr { name = "104.16.0.0/13" }
+  cidr { name = "104.24.0.0/14" }
+  cidr { name = "108.162.192.0/18" }
+  cidr { name = "131.0.72.0/22" }
+  cidr { name = "141.101.64.0/18" }
+  cidr { name = "162.158.0.0/15" }
+  cidr { name = "172.64.0.0/13" }
+  cidr { name = "173.245.48.0/20" }
+  cidr { name = "188.114.96.0/20" }
+  cidr { name = "190.93.240.0/20" }
+  cidr { name = "197.234.240.0/22" }
+  cidr { name = "198.41.128.0/17" }
+}
