@@ -25,3 +25,10 @@ variable "proxmox_ssh_password" {
   nullable    = false
   description = "The SSH password to use to ssh into the proxmox server"
 }
+
+variable "cloudflare_api_key" {
+  type        = string
+  sensitive   = true
+  nullable    = false
+  description = "The global Cloudflare API key"
+}
