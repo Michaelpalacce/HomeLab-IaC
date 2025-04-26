@@ -4,10 +4,13 @@ A public space to store my infrastructure as code components.
 
 ## Dependencies
 
-- `proxmox.sensitive.auto.tfvars` needs to be created with the following variables
-    - proxmox_api_token    = "terraform@pve!provider=********"
-    - proxmox_ssh_password = "********"
-    - cloudflare_api_key   = "********"
+
+- `.envrc` file with the following structure. You can use `direnv` to load them
+```sh
+export TF_VAR_proxmox_api_token="terraform@pve!provider=***"
+export TF_VAR_proxmox_ssh_password="***"
+export TF_VAR_cloudflare_api_key="***"
+```
 - Nodes with names
     - `prox-1`
     - `prox-2`

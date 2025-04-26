@@ -1,3 +1,4 @@
 *sensitive.auto.tfvars
 *.tfstate*
 .terraform
+.envrc
