@@ -61,6 +61,14 @@ resource "proxmox_virtual_environment_firewall_ipset" "public-lbs" {
     comment = "Mealie. Self-hosted recipies."
   }
   cidr {
+    name    = "192.168.1.14"
+    comment = "Niolesk. Kroki diagrams."
+  }
+  cidr {
+    name    = "192.168.1.15"
+    comment = "Kavita. Books!!!."
+  }
+  cidr {
     name    = "192.168.1.6"
     comment = "My website. sgenov.dev"
   }
