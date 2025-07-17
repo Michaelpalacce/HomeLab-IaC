@@ -65,3 +65,6 @@ data "proxmox_virtual_environment_vm" "tailscale" {
   vm_id     = 108
 }
 
+data "local_file" "ssh_public_key" {
+  filename = "/home/stef/.ssh/id_rsa.pub"
+}
