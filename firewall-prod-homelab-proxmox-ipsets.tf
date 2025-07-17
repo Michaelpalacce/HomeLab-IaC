@@ -170,16 +170,6 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   }
 
   cidr {
-    name    = "192.168.1.56"
-    comment = ""
-  }
-
-  cidr {
-    name    = "192.168.1.57"
-    comment = ""
-  }
-
-  cidr {
     name    = "192.168.1.78"
     comment = ""
   }

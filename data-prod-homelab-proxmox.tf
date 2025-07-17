@@ -65,12 +65,3 @@ data "proxmox_virtual_environment_vm" "tailscale" {
   vm_id     = 108
 }
 
-data "proxmox_virtual_environment_vm" "k3s-n5-1" {
-  node_name = data.proxmox_virtual_environment_node.prox-5.node_name
-  vm_id     = 109
-}
-
-data "proxmox_virtual_environment_vm" "k3s-n5-2" {
-  node_name = data.proxmox_virtual_environment_node.prox-5.node_name
-  vm_id     = 110
-}

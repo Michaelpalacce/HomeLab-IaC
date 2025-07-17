@@ -95,14 +95,6 @@ locals {
       node_name = "prox-3"
       vm_id     = 105
     },
-    "k3s-n5-1" = {
-      node_name = "prox-5"
-      vm_id     = 109
-    },
-    "k3s-n5-2" = {
-      node_name = "prox-5"
-      vm_id     = 110
-    },
   }
 }
 
