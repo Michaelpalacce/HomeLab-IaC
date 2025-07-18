@@ -32,3 +32,10 @@ variable "cloudflare_api_key" {
   nullable    = false
   description = "The global Cloudflare API key"
 }
+
+variable "vm_pass" {
+  type        = string
+  sensitive   = true
+  nullable    = false
+  description = "The password to set for the vm"
+}
