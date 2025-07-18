@@ -32,4 +32,14 @@ fetch-mac: ## Fetches the state and vars from NFS to local
 	cp /private/nfs/terraform/terraform.tfstate . && \
 	cp /private/nfs/terraform/.envrc .
 
+.PHONY: commit-arch
+commit-arch: ## Commits the state file to nfs
+	cp terraform.tfstate /mnt/k3s/terraform/ && \
+	cp .envrc /mnt/k3s/terraform/
+
+.PHONY: fetch-arch
+fetch-arch: ## Fetches the state and vars from NFS to local
+	cp /mnt/k3s/terraform/terraform.tfstate . && \
+	cp /mnt/k3s/terraform/.envrc .
+
 
