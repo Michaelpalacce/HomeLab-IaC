@@ -150,3 +150,12 @@ variable "vm_disks" {
   description = "List of disk configurations for the VM. Defaults to a single boot disk."
 }
 
+
+variable "vm_boot_order" {
+  type        = list(string)
+  sensitive   = false
+  nullable    = false
+  ephemeral   = false
+  default     = ["virtio0"]
+  description = "The boot order of the drives"
+}

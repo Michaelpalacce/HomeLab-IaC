@@ -43,22 +43,28 @@ resource "proxmox_virtual_environment_vm" "k3s_vm" {
     firewall = true
   }
 
-  tpm_state {
-    version = "v2.0"
+  dynamic "tpm_state" {
+    for_each = var.cloud_image_url == "" ? [] : [1]
+    content {
+      version = "v2.0"
+    }
   }
 
-  boot_order = ["virtio0"]
+  boot_order = var.vm_boot_order
 
   # --- CloudImage Disk ---
   # This is the cloud image disk for the cloud image that you specified. It's needed and will be discarded after initial run.
-  disk {
-    datastore_id = "nas"
-    interface    = "virtio0"
-    import_from  = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
+  dynamic "disk" {
+    for_each = var.cloud_image_url == "" ? [] : [1]
+    content {
+      datastore_id = "nas"
+      interface    = "virtio0"
+      import_from  = proxmox_virtual_environment_download_file.ubuntu_cloud_image[0].id
 
-    cache   = "none"
-    discard = "on"
-    size    = 20
+      cache   = "none"
+      discard = "on"
+      size    = 20
+    }
   }
 
 
@@ -77,14 +83,17 @@ resource "proxmox_virtual_environment_vm" "k3s_vm" {
     }
   }
 
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "dhcp"
+  dynamic "initialization" {
+    for_each = var.cloud_image_url == "" ? [] : [1]
+    content {
+      ip_config {
+        ipv4 {
+          address = "dhcp"
+        }
       }
-    }
 
-    user_data_file_id = proxmox_virtual_environment_file.k3s_cc.id
+      user_data_file_id = proxmox_virtual_environment_file.k3s_cc[0].id
+    }
   }
 
   lifecycle {
