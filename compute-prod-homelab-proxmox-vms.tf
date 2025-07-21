@@ -16,11 +16,11 @@ module "k3s-n5" {
 
   node_name = data.proxmox_virtual_environment_node.prox-5.node_name
   vm_cpu = {
-    cores   = 3
+    cores   = 4
     sockets = 2
   }
   vm_memory = {
-    dedicated = 16000
+    dedicated = 22000
   }
   vm_disks = [
     {
