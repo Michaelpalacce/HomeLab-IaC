@@ -52,22 +52,6 @@ resource "proxmox_virtual_environment_vm" "k3s_vm" {
 
   boot_order = var.vm_boot_order
 
-  # --- CloudImage Disk ---
-  # This is the cloud image disk for the cloud image that you specified. It's needed and will be discarded after initial run.
-  dynamic "disk" {
-    for_each = var.cloud_image_url == "" ? [] : [1]
-    content {
-      datastore_id = "nas"
-      interface    = "virtio0"
-      import_from  = proxmox_virtual_environment_download_file.ubuntu_cloud_image[0].id
-
-      cache   = "none"
-      discard = "on"
-      size    = 20
-    }
-  }
-
-
   dynamic "disk" {
     for_each = var.vm_disks
     content {
@@ -80,6 +64,33 @@ resource "proxmox_virtual_environment_vm" "k3s_vm" {
       cache       = lookup(disk.value, "cache", null)
       discard     = lookup(disk.value, "discard", null)
       iothread    = lookup(disk.value, "iothread", null)
+    }
+  }
+
+  # --- CloudImage Disk ---
+  # This is the cloud image disk for the cloud image that you specified. It's needed and will be discarded after initial run.
+  dynamic "disk" {
+    for_each = var.cloud_image_url == "" ? [] : [1]
+    content {
+      datastore_id = "local-lvm"
+      interface    = "scsi0"
+      import_from  = proxmox_virtual_environment_download_file.ubuntu_cloud_image[0].id
+
+      cache   = "none"
+      discard = "on"
+      size    = var.vm_boot_disk_size
+    }
+  }
+
+  # In case cloud config is not used :)
+  dynamic "disk" {
+    for_each = var.cloud_image_url == "" ? [1] : []
+    content {
+      datastore_id = "local-lvm"
+      interface    = "scsi0"
+      cache        = "none"
+      discard      = "ignore"
+      size         = var.vm_boot_disk_size
     }
   }
 

@@ -1,7 +1,7 @@
 resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
   count        = var.cloud_image_url == "" ? 0 : 1
   content_type = "import"
-  datastore_id = var.cloud_image_datastore_id
+  datastore_id = "local"
   node_name    = var.node_name
   url          = var.cloud_image_url
   # need to rename the file to *.qcow2 to indicate the actual file format for import
@@ -11,7 +11,7 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
 resource "proxmox_virtual_environment_file" "k3s_cc" {
   count        = var.cloud_image_url == "" ? 0 : 1
   content_type = "snippets"
-  datastore_id = var.cloud_image_datastore_id
+  datastore_id = "local"
   node_name    = var.node_name
 
   source_raw {

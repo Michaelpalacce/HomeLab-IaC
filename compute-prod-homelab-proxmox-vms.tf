@@ -22,15 +22,8 @@ module "k3s-n5" {
   vm_memory = {
     dedicated = 22000
   }
+  vm_boot_disk_size = 128
   vm_disks = [
-    {
-      interface    = "scsi0"
-      datastore_id = "local-lvm"
-      cache        = "none"
-      discard      = "ignore"
-      size         = 128
-      iothread     = true
-    },
     {
       interface    = "scsi1"
       datastore_id = "local-lvm"
@@ -46,70 +39,64 @@ module "k3s_vms" {
   source = "./modules/k3s-vm"
   for_each = {
     "k3s-m1" = {
-      node_data          = data.proxmox_virtual_environment_node.prox-1.node_name
-      cpu_cores          = 2
-      cpu_sockets        = 1
-      memory_dedicated   = 4000
-      disk0_size         = 400
-      disk1_size         = 220
-      disk0_datastore_id = "local-lvm"
-      disk1_datastore_id = "extra"
-      cloud_image_url    = ""
+      node_data         = data.proxmox_virtual_environment_node.prox-1.node_name
+      cpu_cores         = 2
+      cpu_sockets       = 1
+      memory_dedicated  = 4000
+      vm_boot_disk_size = 400
+      disk_size         = 220
+      disk_datastore_id = "extra"
+      cloud_image_url   = ""
     },
     "k3s-n1" = {
-      node_data          = data.proxmox_virtual_environment_node.prox-1.node_name
-      cpu_cores          = 3
-      cpu_sockets        = 2
-      memory_dedicated   = 24000
-      disk0_size         = 400
-      disk1_size         = 220
-      disk0_datastore_id = "local-lvm"
-      disk1_datastore_id = "extra"
-      cloud_image_url    = ""
+      node_data         = data.proxmox_virtual_environment_node.prox-1.node_name
+      cpu_cores         = 3
+      cpu_sockets       = 2
+      memory_dedicated  = 24000
+      vm_boot_disk_size = 400
+      disk_size         = 220
+      disk_datastore_id = "extra"
+      cloud_image_url   = ""
     },
     "k3s-m2" = {
-      node_data          = data.proxmox_virtual_environment_node.prox-2.node_name
-      cpu_cores          = 2
-      cpu_sockets        = 1
-      memory_dedicated   = 4000
-      disk0_size         = 64
-      disk1_size         = 220
-      disk0_datastore_id = "local-lvm"
-      disk1_datastore_id = "extra"
-      cloud_image_url    = ""
+      node_data         = data.proxmox_virtual_environment_node.prox-2.node_name
+      cpu_cores         = 2
+      cpu_sockets       = 1
+      memory_dedicated  = 4000
+      vm_boot_disk_size = 64
+      disk_size         = 220
+      disk_datastore_id = "extra"
+      cloud_image_url   = ""
     },
     "k3s-n2" = {
-      node_data          = data.proxmox_virtual_environment_node.prox-2.node_name
-      cpu_cores          = 3
-      cpu_sockets        = 2
-      memory_dedicated   = 16000
-      disk0_size         = 64
-      disk1_size         = 220
-      disk0_datastore_id = "local-lvm"
-      disk1_datastore_id = "extra"
-      cloud_image_url    = ""
+      node_data         = data.proxmox_virtual_environment_node.prox-2.node_name
+      cpu_cores         = 3
+      cpu_sockets       = 2
+      memory_dedicated  = 16000
+      vm_boot_disk_size = 64
+      disk_size         = 220
+      disk_datastore_id = "extra"
+      cloud_image_url   = ""
     },
     "k3s-m3" = {
-      node_data          = data.proxmox_virtual_environment_node.prox-3.node_name
-      cpu_cores          = 2
-      cpu_sockets        = 1
-      memory_dedicated   = 4000
-      disk0_size         = 64
-      disk1_size         = 220
-      disk0_datastore_id = "local-lvm"
-      disk1_datastore_id = "extra"
-      cloud_image_url    = ""
+      node_data         = data.proxmox_virtual_environment_node.prox-3.node_name
+      cpu_cores         = 2
+      cpu_sockets       = 1
+      memory_dedicated  = 4000
+      vm_boot_disk_size = 64
+      disk_size         = 220
+      disk_datastore_id = "extra"
+      cloud_image_url   = ""
     },
     "k3s-n3" = {
-      node_data          = data.proxmox_virtual_environment_node.prox-3.node_name
-      cpu_cores          = 3
-      cpu_sockets        = 2
-      memory_dedicated   = 16000
-      disk0_size         = 64
-      disk1_size         = 210
-      disk0_datastore_id = "local-lvm"
-      disk1_datastore_id = "extra"
-      cloud_image_url    = ""
+      node_data         = data.proxmox_virtual_environment_node.prox-3.node_name
+      cpu_cores         = 3
+      cpu_sockets       = 2
+      memory_dedicated  = 16000
+      vm_boot_disk_size = 64
+      disk_size         = 210
+      disk_datastore_id = "extra"
+      cloud_image_url   = ""
     },
   }
 
@@ -134,20 +121,14 @@ module "k3s_vms" {
   vm_memory = {
     dedicated = each.value.memory_dedicated
   }
+  vm_boot_disk_size = each.value.vm_boot_disk_size
   vm_disks = [
     {
-      interface    = "scsi0"
-      datastore_id = each.value.disk0_datastore_id
-      cache        = "none"
-      discard      = "ignore"
-      size         = each.value.disk0_size
-    },
-    {
       interface    = "scsi1"
-      datastore_id = each.value.disk1_datastore_id
+      datastore_id = each.value.disk_datastore_id
       cache        = "none"
       discard      = "ignore"
-      size         = each.value.disk1_size
+      size         = each.value.disk_size
     }
   ]
 }

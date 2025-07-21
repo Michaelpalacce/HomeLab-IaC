@@ -35,13 +35,11 @@ variable "cloud_image_url" {
   ephemeral   = false
 }
 
-variable "cloud_image_datastore_id" {
-  type        = string
+variable "vm_boot_disk_size" {
+  type        = number
   sensitive   = false
-  default     = "nas"
-  description = "This is the datastore ID where we will store the cloud image specified in cloud_image_url. The datastore should be enabled for `import` from Datacenter > Storage > then edit the storage to have `Import`."
-  nullable    = false
-  ephemeral   = false
+  description = "The size of the boot disk"
+  default     = 64
 }
 
 variable "node_name" {
@@ -136,17 +134,7 @@ variable "vm_disks" {
     discard     = optional(string)
     iothread    = optional(bool)
   }))
-  default = [
-    # Default is ONLY the Boot Disk configuration
-    {
-      datastore_id = "local-lvm"
-      interface    = "scsi0"
-      cache        = "none"
-      discard      = "ignore"
-      size         = 128
-      iothread     = true
-    },
-  ]
+  default     = []
   description = "List of disk configurations for the VM. Defaults to a single boot disk."
 }
 
@@ -156,6 +144,6 @@ variable "vm_boot_order" {
   sensitive   = false
   nullable    = false
   ephemeral   = false
-  default     = ["virtio0"]
+  default     = ["scsi0"]
   description = "The boot order of the drives"
 }
