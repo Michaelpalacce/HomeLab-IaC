@@ -155,18 +155,18 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   comment = "(Terraform) Holds all the IPs of the VMs where k3s will be installeHolds all the IPs of the VMs where k3s will be installed"
 
   cidr {
-    name    = "192.168.1.242"
-    comment = proxmox_virtual_environment_vm.k3s-m3.name
+    name    = proxmox_virtual_environment_vm.k3s_vms["k3s-m3"].ipv4_addresses[1][0]
+    comment = proxmox_virtual_environment_vm.k3s_vms["k3s-m3"].name
   }
 
   cidr {
-    name    = "192.168.1.247"
-    comment = proxmox_virtual_environment_vm.k3s-n3.name
+    name    = proxmox_virtual_environment_vm.k3s_vms["k3s-n3"].ipv4_addresses[1][0]
+    comment = proxmox_virtual_environment_vm.k3s_vms["k3s-n3"].name
   }
 
   cidr {
-    name    = "192.168.1.55"
-    comment = proxmox_virtual_environment_vm.k3s-n2.name
+    name    = proxmox_virtual_environment_vm.k3s_vms["k3s-n2"].ipv4_addresses[1][0]
+    comment = proxmox_virtual_environment_vm.k3s_vms["k3s-n2"].name
   }
 
   cidr {
@@ -175,18 +175,18 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   }
 
   cidr {
-    name    = "192.168.1.78"
-    comment = proxmox_virtual_environment_vm.k3s-m1.name
+    name    = proxmox_virtual_environment_vm.k3s_vms["k3s-m1"].ipv4_addresses[1][0]
+    comment = proxmox_virtual_environment_vm.k3s_vms["k3s-m1"].name
   }
 
   cidr {
-    name    = "192.168.1.83"
-    comment = proxmox_virtual_environment_vm.k3s-m2.name
+    name    = proxmox_virtual_environment_vm.k3s_vms["k3s-m2"].ipv4_addresses[1][0]
+    comment = proxmox_virtual_environment_vm.k3s_vms["k3s-m2"].name
   }
 
   cidr {
-    name    = "192.168.1.89"
-    comment = proxmox_virtual_environment_vm.k3s-n1.name
+    name    = proxmox_virtual_environment_vm.k3s_vms["k3s-n1"].ipv4_addresses[1][0]
+    comment = proxmox_virtual_environment_vm.k3s_vms["k3s-n1"].name
   }
 }
 

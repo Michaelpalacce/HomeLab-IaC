@@ -1,23 +1,84 @@
-# -------------------------------------------------------
-# Manages Virtual Machines in Proxmox
-# These are existing machines. In the future, migration to cloud images should be done to make the whole cluster more uniform.
-# -------------------------------------------------------
+resource "proxmox_virtual_environment_vm" "k3s_vms" {
+  for_each = {
+    "k3s-m1" : {
+      node = data.proxmox_virtual_environment_node.prox-1.node_name,
 
-resource "proxmox_virtual_environment_vm" "k3s-m1" {
-  name        = "k3s-m1"
+      memory = 6000,
+
+      cores   = 3,
+      sockets = 1,
+
+      disk0_size = 400,
+      disk1_size = 220
+    },
+    "k3s-n1" : {
+      node = data.proxmox_virtual_environment_node.prox-1.node_name,
+
+      memory = 22000,
+
+      cores   = 3,
+      sockets = 2,
+
+      disk0_size = 400,
+      disk1_size = 220
+    },
+    "k3s-m2" : {
+      node = data.proxmox_virtual_environment_node.prox-2.node_name,
+
+      memory = 6000,
+
+      cores   = 3,
+      sockets = 1,
+
+      disk0_size = 64,
+      disk1_size = 220
+    },
+    "k3s-n2" : {
+      node = data.proxmox_virtual_environment_node.prox-2.node_name,
+
+      memory = 14000,
+
+      cores   = 3,
+      sockets = 2,
+
+      disk0_size = 64,
+      disk1_size = 220
+    },
+    "k3s-m3" : {
+      node = data.proxmox_virtual_environment_node.prox-3.node_name,
+
+      memory = 6000,
+
+      cores   = 3,
+      sockets = 1,
+
+      disk0_size = 64,
+      disk1_size = 220
+    },
+    "k3s-n3" : {
+      node = data.proxmox_virtual_environment_node.prox-3.node_name,
+
+      memory = 14000,
+
+      cores   = 3,
+      sockets = 2,
+
+      disk0_size = 64,
+      disk1_size = 210
+    },
+  }
+
+  name        = each.key
   description = "Managed by Terraform"
   tags        = ["terraform"]
 
-  node_name = data.proxmox_virtual_environment_node.prox-1.node_name
-  vm_id     = 100
+  node_name = each.value.node
 
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
   stop_on_destroy = true
   scsi_hardware   = "virtio-scsi-single"
   on_boot         = true
   keyboard_layout = "en-us"
-  # Don't migrate the VM, as it's using localdisk lvm
-  migrate = false
+  migrate         = false # Don't migrate the VM, as it's using localdisk lvm
 
   agent {
     enabled = true
@@ -29,13 +90,13 @@ resource "proxmox_virtual_environment_vm" "k3s-m1" {
     units      = 1024
     flags      = []
     numa       = false
-    sockets    = 1
+    sockets    = each.value.sockets
     hotplugged = 0
     limit      = 0
   }
 
   memory {
-    dedicated      = 6000
+    dedicated      = each.value.memory
     floating       = 0
     keep_hugepages = false
     shared         = 0
@@ -50,7 +111,7 @@ resource "proxmox_virtual_environment_vm" "k3s-m1" {
     datastore_id = "local-lvm"
     cache        = "none"
     discard      = "ignore"
-    size         = 400
+    size         = each.value.disk0_size
   }
 
   disk {
@@ -58,77 +119,7 @@ resource "proxmox_virtual_environment_vm" "k3s-m1" {
     interface    = "scsi1"
     cache        = "none"
     discard      = "ignore"
-    size         = 220
-  }
-
-  # WE HAVE to ingore these, otherwise the provider will do a replacement. This is a well known bug:
-  # https://github.com/bpg/terraform-provider-proxmox/issues/1529
-  lifecycle {
-    ignore_changes = [
-      ipv4_addresses,
-      ipv6_addresses,
-      mac_addresses,
-      network_interface_names
-    ]
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "k3s-n1" {
-  name        = "k3s-n1"
-  description = "Managed by Terraform"
-  tags        = ["terraform"]
-
-  node_name = data.proxmox_virtual_environment_node.prox-1.node_name
-  vm_id     = 101
-
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
-  stop_on_destroy = true
-  scsi_hardware   = "virtio-scsi-single"
-  on_boot         = true
-  keyboard_layout = "en-us"
-  # Don't migrate the VM, as it's using localdisk lvm
-  migrate = false
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores      = 3
-    type       = "x86-64-v2-AES"
-    units      = 1024
-    flags      = []
-    numa       = false
-    sockets    = 2
-    hotplugged = 0
-    limit      = 0
-  }
-
-  memory {
-    dedicated      = 22000
-    floating       = 0
-    keep_hugepages = false
-    shared         = 0
-  }
-
-  operating_system {
-    type = "l26"
-  }
-
-  disk {
-    interface    = "scsi0"
-    datastore_id = "local-lvm"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 400
-  }
-
-  disk {
-    datastore_id = "extra"
-    interface    = "scsi1"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 220
+    size         = each.value.disk1_size
   }
 
   lifecycle {
@@ -140,276 +131,3 @@ resource "proxmox_virtual_environment_vm" "k3s-n1" {
     ]
   }
 }
-
-resource "proxmox_virtual_environment_vm" "k3s-m2" {
-  name        = "k3s-m2"
-  description = "Managed by Terraform"
-  tags        = ["terraform"]
-
-  node_name = data.proxmox_virtual_environment_node.prox-2.node_name
-  vm_id     = 102
-
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
-  stop_on_destroy = true
-  scsi_hardware   = "virtio-scsi-single"
-  on_boot         = true
-  keyboard_layout = "en-us"
-  # Don't migrate the VM, as it's using localdisk lvm
-  migrate = false
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores      = 3
-    type       = "x86-64-v2-AES"
-    units      = 1024
-    flags      = []
-    numa       = false
-    sockets    = 1
-    hotplugged = 0
-    limit      = 0
-  }
-
-  memory {
-    dedicated      = 6000
-    floating       = 0
-    keep_hugepages = false
-    shared         = 0
-  }
-
-  operating_system {
-    type = "l26"
-  }
-
-  disk {
-    interface    = "scsi0"
-    datastore_id = "local-lvm"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 64
-  }
-
-  disk {
-    datastore_id = "extra"
-    interface    = "scsi1"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 220
-  }
-
-  lifecycle {
-    ignore_changes = [
-      ipv4_addresses,
-      ipv6_addresses,
-      mac_addresses,
-      network_interface_names
-    ]
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "k3s-n2" {
-  name        = "k3s-n2"
-  description = "Managed by Terraform"
-  tags        = ["terraform"]
-
-  node_name = data.proxmox_virtual_environment_node.prox-2.node_name
-  vm_id     = 106
-
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
-  stop_on_destroy = true
-  scsi_hardware   = "virtio-scsi-single"
-  on_boot         = true
-  keyboard_layout = "en-us"
-  # Don't migrate the VM, as it's using localdisk lvm
-  migrate = false
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores      = 3
-    type       = "x86-64-v2-AES"
-    units      = 1024
-    flags      = []
-    numa       = false
-    sockets    = 2
-    hotplugged = 0
-    limit      = 0
-  }
-
-  memory {
-    dedicated      = 14000
-    floating       = 0
-    keep_hugepages = false
-    shared         = 0
-  }
-
-  operating_system {
-    type = "l26"
-  }
-
-  disk {
-    interface    = "scsi0"
-    datastore_id = "local-lvm"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 64
-  }
-
-  disk {
-    datastore_id = "extra"
-    interface    = "scsi1"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 220
-  }
-
-  lifecycle {
-    ignore_changes = [
-      ipv4_addresses,
-      ipv6_addresses,
-      mac_addresses,
-      network_interface_names
-    ]
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "k3s-m3" {
-  name        = "k3s-m3"
-  description = "Managed by Terraform"
-  tags        = ["terraform"]
-
-  node_name = data.proxmox_virtual_environment_node.prox-3.node_name
-  vm_id     = 103
-
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
-  stop_on_destroy = true
-  scsi_hardware   = "virtio-scsi-single"
-  on_boot         = true
-  keyboard_layout = "en-us"
-  # Don't migrate the VM, as it's using localdisk lvm
-  migrate = false
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores      = 3
-    type       = "x86-64-v2-AES"
-    units      = 1024
-    flags      = []
-    numa       = false
-    sockets    = 1
-    hotplugged = 0
-    limit      = 0
-  }
-
-  memory {
-    dedicated      = 6000
-    floating       = 0
-    keep_hugepages = false
-    shared         = 0
-  }
-
-  operating_system {
-    type = "l26"
-  }
-
-  disk {
-    interface    = "scsi0"
-    datastore_id = "local-lvm"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 64
-  }
-
-  disk {
-    datastore_id = "extra"
-    interface    = "scsi1"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 220
-  }
-
-  lifecycle {
-    ignore_changes = [
-      ipv4_addresses,
-      ipv6_addresses,
-      mac_addresses,
-      network_interface_names
-    ]
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "k3s-n3" {
-  name        = "k3s-n3"
-  description = "Managed by Terraform"
-  tags        = ["terraform"]
-
-  node_name = data.proxmox_virtual_environment_node.prox-3.node_name
-  vm_id     = 105
-
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
-  stop_on_destroy = true
-  scsi_hardware   = "virtio-scsi-single"
-  on_boot         = true
-  keyboard_layout = "en-us"
-  # Don't migrate the VM, as it's using localdisk lvm
-  migrate = false
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores      = 3
-    type       = "x86-64-v2-AES"
-    units      = 1024
-    flags      = []
-    numa       = false
-    sockets    = 2
-    hotplugged = 0
-    limit      = 0
-  }
-
-  memory {
-    dedicated      = 14000
-    floating       = 0
-    keep_hugepages = false
-    shared         = 0
-  }
-
-  operating_system {
-    type = "l26"
-  }
-
-  disk {
-    interface    = "scsi0"
-    datastore_id = "local-lvm"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 64
-  }
-
-  disk {
-    datastore_id = "extra"
-    interface    = "scsi1"
-    cache        = "none"
-    discard      = "ignore"
-    size         = 210
-  }
-
-  lifecycle {
-    ignore_changes = [
-      ipv4_addresses,
-      ipv6_addresses,
-      mac_addresses,
-      network_interface_names
-    ]
-  }
-}
-

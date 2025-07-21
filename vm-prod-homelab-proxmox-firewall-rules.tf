@@ -71,14 +71,14 @@ resource "proxmox_virtual_environment_firewall_rules" "tailscale" {
 
 locals {
   k3s_vms = {
-    "k3s-m1" = proxmox_virtual_environment_vm.k3s-m1
-    "k3s-n1" = proxmox_virtual_environment_vm.k3s-n1
+    "k3s-m1" = proxmox_virtual_environment_vm.k3s_vms["k3s-m1"]
+    "k3s-n1" = proxmox_virtual_environment_vm.k3s_vms["k3s-n1"]
 
-    "k3s-m2" = proxmox_virtual_environment_vm.k3s-m2
-    "k3s-n2" = proxmox_virtual_environment_vm.k3s-n2
+    "k3s-m2" = proxmox_virtual_environment_vm.k3s_vms["k3s-m2"]
+    "k3s-n2" = proxmox_virtual_environment_vm.k3s_vms["k3s-n2"]
 
-    "k3s-m3" = proxmox_virtual_environment_vm.k3s-m3
-    "k3s-n3" = proxmox_virtual_environment_vm.k3s-n3
+    "k3s-m3" = proxmox_virtual_environment_vm.k3s_vms["k3s-m3"]
+    "k3s-n3" = proxmox_virtual_environment_vm.k3s_vms["k3s-n3"]
 
     "k3s-n5" = module.k3s-n5
   }

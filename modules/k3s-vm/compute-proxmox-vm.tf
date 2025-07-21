@@ -86,4 +86,13 @@ resource "proxmox_virtual_environment_vm" "k3s_vm" {
 
     user_data_file_id = proxmox_virtual_environment_file.k3s_cc.id
   }
+
+  lifecycle {
+    ignore_changes = [
+      ipv4_addresses,
+      ipv6_addresses,
+      mac_addresses,
+      network_interface_names
+    ]
+  }
 }
