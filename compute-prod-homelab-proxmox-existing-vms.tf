@@ -3,9 +3,9 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
     "k3s-m1" : {
       node = data.proxmox_virtual_environment_node.prox-1.node_name,
 
-      memory = 6000,
+      memory = 4000,
 
-      cores   = 3,
+      cores   = 2,
       sockets = 1,
 
       disk0_size = 400,
@@ -14,7 +14,7 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
     "k3s-n1" : {
       node = data.proxmox_virtual_environment_node.prox-1.node_name,
 
-      memory = 22000,
+      memory = 24000,
 
       cores   = 3,
       sockets = 2,
@@ -25,9 +25,9 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
     "k3s-m2" : {
       node = data.proxmox_virtual_environment_node.prox-2.node_name,
 
-      memory = 6000,
+      memory = 4000,
 
-      cores   = 3,
+      cores   = 2,
       sockets = 1,
 
       disk0_size = 64,
@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
     "k3s-n2" : {
       node = data.proxmox_virtual_environment_node.prox-2.node_name,
 
-      memory = 14000,
+      memory = 16000,
 
       cores   = 3,
       sockets = 2,
@@ -47,9 +47,9 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
     "k3s-m3" : {
       node = data.proxmox_virtual_environment_node.prox-3.node_name,
 
-      memory = 6000,
+      memory = 4000,
 
-      cores   = 3,
+      cores   = 2,
       sockets = 1,
 
       disk0_size = 64,
@@ -58,7 +58,7 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
     "k3s-n3" : {
       node = data.proxmox_virtual_environment_node.prox-3.node_name,
 
-      memory = 14000,
+      memory = 16000,
 
       cores   = 3,
       sockets = 2,
@@ -85,7 +85,7 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
   }
 
   cpu {
-    cores      = 3
+    cores      = each.value.cores
     type       = "x86-64-v2-AES"
     units      = 1024
     flags      = []
