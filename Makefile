@@ -26,24 +26,20 @@ help: ## Display this help.
 commit-mac: ## Commits the state file to nfs
 	cp terraform.tfstate /private/nfs/terraform/ && \
 	cp .envrc /private/nfs/terraform
-	cp hashed_password.txt /private/nfs/terraform
 
 .PHONY: fetch-mac
 fetch-mac: ## Fetches the state and vars from NFS to local
 	cp /private/nfs/terraform/terraform.tfstate . && \
 	cp /private/nfs/terraform/.envrc .
-	cp /private/nfs/terraform/hashed_password.txt .
 
 .PHONY: commit-arch
 commit-arch: ## Commits the state file to nfs
 	cp terraform.tfstate /mnt/k3s/terraform/ && \
 	cp .envrc /mnt/k3s/terraform/
-	cp hashed_password.txt /mnt/k3s/terraform
 
 .PHONY: fetch-arch
 fetch-arch: ## Fetches the state and vars from NFS to local
 	cp /mnt/k3s/terraform/terraform.tfstate . && \
 	cp /mnt/k3s/terraform/.envrc . && \
-	cp /mnt/k3s/terraform/hashed_password.txt .
 
 
