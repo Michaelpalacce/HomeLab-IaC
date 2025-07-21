@@ -155,18 +155,18 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   comment = "(Terraform) Holds all the IPs of the VMs where k3s will be installeHolds all the IPs of the VMs where k3s will be installed"
 
   cidr {
-    name    = module.k3s-m3.vm_ipv4_address
-    comment = module.k3s-m3.vm_name
+    name    = module.k3s_vms["k3s-m3"].vm_ipv4_address
+    comment = module.k3s_vms["k3s-m3"].vm_name
   }
 
   cidr {
-    name    = module.k3s-n3.vm_ipv4_address
-    comment = module.k3s-n3.vm_name
+    name    = module.k3s_vms["k3s-n3"].vm_ipv4_address
+    comment = module.k3s_vms["k3s-n3"].vm_name
   }
 
   cidr {
-    name    = module.k3s-n2.vm_ipv4_address
-    comment = module.k3s-n2.vm_name
+    name    = module.k3s_vms["k3s-n2"].vm_ipv4_address
+    comment = module.k3s_vms["k3s-n2"].vm_name
   }
 
   cidr {
@@ -175,18 +175,18 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   }
 
   cidr {
-    name    = module.k3s-m1.vm_ipv4_address
-    comment = module.k3s-m1.vm_name
+    name    = module.k3s_vms["k3s-m1"].vm_ipv4_address
+    comment = module.k3s_vms["k3s-m1"].vm_name
   }
 
   cidr {
-    name    = module.k3s-m2.vm_ipv4_address
-    comment = module.k3s-m2.vm_name
+    name    = module.k3s_vms["k3s-m2"].vm_ipv4_address
+    comment = module.k3s_vms["k3s-m2"].vm_name
   }
 
   cidr {
-    name    = module.k3s-n1.vm_ipv4_address
-    comment = module.k3s-n1.vm_name
+    name    = module.k3s_vms["k3s-n1"].vm_ipv4_address
+    comment = module.k3s_vms["k3s-n1"].vm_name
   }
 }
 

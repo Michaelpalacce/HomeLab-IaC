@@ -69,23 +69,19 @@ resource "proxmox_virtual_environment_firewall_rules" "tailscale" {
   }
 }
 
-locals {
-  k3s_vms = {
-    "k3s-m1" = module.k3s-m1
-    "k3s-n1" = module.k3s-n1
+resource "proxmox_virtual_environment_firewall_rules" "k3s_nodes" {
+  for_each = {
+    "k3s-m1" = module.k3s_vms["k3s-m1"]
+    "k3s-n1" = module.k3s_vms["k3s-n1"]
 
-    "k3s-m2" = module.k3s-m2
-    "k3s-n2" = module.k3s-n2
+    "k3s-m2" = module.k3s_vms["k3s-m2"]
+    "k3s-n2" = module.k3s_vms["k3s-n2"]
 
-    "k3s-m3" = module.k3s-m3
-    "k3s-n3" = module.k3s-n3
+    "k3s-m3" = module.k3s_vms["k3s-m3"]
+    "k3s-n3" = module.k3s_vms["k3s-n3"]
 
     "k3s-n5" = module.k3s-n5
   }
-}
-
-resource "proxmox_virtual_environment_firewall_rules" "k3s_nodes" {
-  for_each = local.k3s_vms
 
   node_name = each.value.node_name
   vm_id     = each.value.vm_id
