@@ -170,6 +170,11 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   }
 
   cidr {
+    name    = module.k3s-n5.vm_ipv4_address
+    comment = ""
+  }
+
+  cidr {
     name    = "192.168.1.78"
     comment = ""
   }

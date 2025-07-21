@@ -5,14 +5,16 @@
 module "k3s-n5" {
   source = "./modules/k3s-vm"
 
+  vm_name      = "k3s-n5"
+  ssh_username = "stefan"
+  ssh_passwrod = var.vm_pass
+
   proxmox_ssh_username = var.proxmox_ssh_username
   proxmox_ssh_password = var.proxmox_ssh_password
   proxmox_api_token    = var.proxmox_api_token
   proxmox_endpoint     = var.proxmox_endpoint
 
-  node_name = "prox-5"
-  vm_name   = "k3s-n5"
-  vm_pass   = var.vm_pass
+  node_name = data.proxmox_virtual_environment_node.prox-5.node_name
   vm_cpu = {
     cores   = 3
     sockets = 2

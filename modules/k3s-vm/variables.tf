@@ -78,6 +78,14 @@ variable "ssh_username" {
   ephemeral   = false
 }
 
+variable "ssh_passwrod" {
+  type        = string
+  sensitive   = true
+  description = "Sha-512 of the password you want to set."
+  nullable    = false
+  ephemeral   = false
+}
+
 variable "vm_cpu" {
   type = object({
     cores      = number
@@ -142,9 +150,3 @@ variable "vm_disks" {
   description = "List of disk configurations for the VM. Defaults to a single boot disk."
 }
 
-variable "vm_pass" {
-  type        = string
-  sensitive   = true
-  nullable    = false
-  description = "The password to set for the vm"
-}

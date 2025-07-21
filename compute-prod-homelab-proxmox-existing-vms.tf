@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_vm" "k3s-m1" {
   description = "Managed by Terraform"
   tags        = ["terraform"]
 
-  node_name = "prox-1"
+  node_name = data.proxmox_virtual_environment_node.prox-1.node_name
   vm_id     = 100
 
   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
@@ -63,7 +63,7 @@ resource "proxmox_virtual_environment_vm" "k3s-n1" {
   description = "Managed by Terraform"
   tags        = ["terraform"]
 
-  node_name = "prox-1"
+  node_name = data.proxmox_virtual_environment_node.prox-1.node_name
   vm_id     = 101
 
   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
@@ -118,7 +118,7 @@ resource "proxmox_virtual_environment_vm" "k3s-m2" {
   description = "Managed by Terraform"
   tags        = ["terraform"]
 
-  node_name = "prox-2-stefangenov"
+  node_name = data.proxmox_virtual_environment_node.prox-2.node_name
   vm_id     = 102
 
   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
@@ -173,7 +173,7 @@ resource "proxmox_virtual_environment_vm" "k3s-n2" {
   description = "Managed by Terraform"
   tags        = ["terraform"]
 
-  node_name = "prox-2-stefangenov"
+  node_name = data.proxmox_virtual_environment_node.prox-2.node_name
   vm_id     = 106
 
   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
@@ -228,7 +228,7 @@ resource "proxmox_virtual_environment_vm" "k3s-m3" {
   description = "Managed by Terraform"
   tags        = ["terraform"]
 
-  node_name = "prox-3"
+  node_name = data.proxmox_virtual_environment_node.prox-3.node_name
   vm_id     = 103
 
   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
@@ -283,7 +283,7 @@ resource "proxmox_virtual_environment_vm" "k3s-n3" {
   description = "Managed by Terraform"
   tags        = ["terraform"]
 
-  node_name = "prox-3"
+  node_name = data.proxmox_virtual_environment_node.prox-3.node_name
   vm_id     = 105
 
   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off

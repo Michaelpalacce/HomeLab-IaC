@@ -70,52 +70,32 @@ resource "proxmox_virtual_environment_firewall_rules" "tailscale" {
 }
 
 locals {
-  k3s_nodes = {
-    "k3s-m1" = {
-      node_name = "prox-1"
-      vm_id     = 100
-    },
-    "k3s-n1" = {
-      node_name = "prox-1"
-      vm_id     = 101
-    },
-    "k3s-m2" = {
-      node_name = "prox-2-stefangenov"
-      vm_id     = 102
-    },
-    "k3s-n2" = {
-      node_name = "prox-2-stefangenov"
-      vm_id     = 106
-    },
-    "k3s-m3" = {
-      node_name = "prox-3"
-      vm_id     = 103
-    },
-    "k3s-n3" = {
-      node_name = "prox-3"
-      vm_id     = 105
-    },
+  k3s_vms = {
+    "k3s-m1" = proxmox_virtual_environment_vm.k3s-m1
+    "k3s-n1" = proxmox_virtual_environment_vm.k3s-n1
+
+    "k3s-m2" = proxmox_virtual_environment_vm.k3s-m2
+    "k3s-n2" = proxmox_virtual_environment_vm.k3s-n2
+
+    "k3s-m3" = proxmox_virtual_environment_vm.k3s-m3
+    "k3s-n3" = proxmox_virtual_environment_vm.k3s-n3
+
+    "k3s-n5" = module.k3s-n5
   }
 }
 
-data "proxmox_virtual_environment_vm" "k3s_node" {
-  for_each  = local.k3s_nodes
-  node_name = each.value.node_name
-  vm_id     = each.value.vm_id
-}
+resource "proxmox_virtual_environment_firewall_rules" "k3s_nodes" {
+  for_each = local.k3s_vms
 
-resource "proxmox_virtual_environment_firewall_rules" "k3s_node" {
-  for_each = data.proxmox_virtual_environment_vm.k3s_node
-
-  depends_on = [
-    data.proxmox_virtual_environment_vm.k3s_node
-  ]
+  # depends_on is implicitly handled by referencing the VM resources in `local.k3s_vms`
+  # If you *must* explicitly declare depends_on for some reason,
+  # you can use `depends_on = [each.value]`
 
   node_name = each.value.node_name
   vm_id     = each.value.vm_id
 
   rule {
     security_group = proxmox_virtual_environment_cluster_firewall_security_group.k3s.name
-    comment        = "(Terraform) k3s specific settings."
+    comment        = "(Terraform) k3s specific settings for ${each.key}."
   }
 }
