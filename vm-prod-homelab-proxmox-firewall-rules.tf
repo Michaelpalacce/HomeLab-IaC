@@ -87,10 +87,6 @@ locals {
 resource "proxmox_virtual_environment_firewall_rules" "k3s_nodes" {
   for_each = local.k3s_vms
 
-  # depends_on is implicitly handled by referencing the VM resources in `local.k3s_vms`
-  # If you *must* explicitly declare depends_on for some reason,
-  # you can use `depends_on = [each.value]`
-
   node_name = each.value.node_name
   vm_id     = each.value.vm_id
 

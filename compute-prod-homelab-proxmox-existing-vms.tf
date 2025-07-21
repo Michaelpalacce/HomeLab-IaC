@@ -19,6 +19,10 @@ resource "proxmox_virtual_environment_vm" "k3s-m1" {
   # Don't migrate the VM, as it's using localdisk lvm
   migrate = false
 
+  agent {
+    enabled = true
+  }
+
   cpu {
     cores      = 3
     type       = "x86-64-v2-AES"
@@ -56,6 +60,17 @@ resource "proxmox_virtual_environment_vm" "k3s-m1" {
     discard      = "ignore"
     size         = 220
   }
+
+  # WE HAVE to ingore these, otherwise the provider will do a replacement. This is a well known bug:
+  # https://github.com/bpg/terraform-provider-proxmox/issues/1529
+  lifecycle {
+    ignore_changes = [
+      ipv4_addresses,
+      ipv6_addresses,
+      mac_addresses,
+      network_interface_names
+    ]
+  }
 }
 
 resource "proxmox_virtual_environment_vm" "k3s-n1" {
@@ -73,6 +88,10 @@ resource "proxmox_virtual_environment_vm" "k3s-n1" {
   keyboard_layout = "en-us"
   # Don't migrate the VM, as it's using localdisk lvm
   migrate = false
+
+  agent {
+    enabled = true
+  }
 
   cpu {
     cores      = 3
@@ -111,6 +130,15 @@ resource "proxmox_virtual_environment_vm" "k3s-n1" {
     discard      = "ignore"
     size         = 220
   }
+
+  lifecycle {
+    ignore_changes = [
+      ipv4_addresses,
+      ipv6_addresses,
+      mac_addresses,
+      network_interface_names
+    ]
+  }
 }
 
 resource "proxmox_virtual_environment_vm" "k3s-m2" {
@@ -128,6 +156,10 @@ resource "proxmox_virtual_environment_vm" "k3s-m2" {
   keyboard_layout = "en-us"
   # Don't migrate the VM, as it's using localdisk lvm
   migrate = false
+
+  agent {
+    enabled = true
+  }
 
   cpu {
     cores      = 3
@@ -166,6 +198,15 @@ resource "proxmox_virtual_environment_vm" "k3s-m2" {
     discard      = "ignore"
     size         = 220
   }
+
+  lifecycle {
+    ignore_changes = [
+      ipv4_addresses,
+      ipv6_addresses,
+      mac_addresses,
+      network_interface_names
+    ]
+  }
 }
 
 resource "proxmox_virtual_environment_vm" "k3s-n2" {
@@ -183,6 +224,10 @@ resource "proxmox_virtual_environment_vm" "k3s-n2" {
   keyboard_layout = "en-us"
   # Don't migrate the VM, as it's using localdisk lvm
   migrate = false
+
+  agent {
+    enabled = true
+  }
 
   cpu {
     cores      = 3
@@ -221,6 +266,15 @@ resource "proxmox_virtual_environment_vm" "k3s-n2" {
     discard      = "ignore"
     size         = 220
   }
+
+  lifecycle {
+    ignore_changes = [
+      ipv4_addresses,
+      ipv6_addresses,
+      mac_addresses,
+      network_interface_names
+    ]
+  }
 }
 
 resource "proxmox_virtual_environment_vm" "k3s-m3" {
@@ -238,6 +292,10 @@ resource "proxmox_virtual_environment_vm" "k3s-m3" {
   keyboard_layout = "en-us"
   # Don't migrate the VM, as it's using localdisk lvm
   migrate = false
+
+  agent {
+    enabled = true
+  }
 
   cpu {
     cores      = 3
@@ -276,6 +334,15 @@ resource "proxmox_virtual_environment_vm" "k3s-m3" {
     discard      = "ignore"
     size         = 220
   }
+
+  lifecycle {
+    ignore_changes = [
+      ipv4_addresses,
+      ipv6_addresses,
+      mac_addresses,
+      network_interface_names
+    ]
+  }
 }
 
 resource "proxmox_virtual_environment_vm" "k3s-n3" {
@@ -293,6 +360,10 @@ resource "proxmox_virtual_environment_vm" "k3s-n3" {
   keyboard_layout = "en-us"
   # Don't migrate the VM, as it's using localdisk lvm
   migrate = false
+
+  agent {
+    enabled = true
+  }
 
   cpu {
     cores      = 3
@@ -330,6 +401,15 @@ resource "proxmox_virtual_environment_vm" "k3s-n3" {
     cache        = "none"
     discard      = "ignore"
     size         = 210
+  }
+
+  lifecycle {
+    ignore_changes = [
+      ipv4_addresses,
+      ipv6_addresses,
+      mac_addresses,
+      network_interface_names
+    ]
   }
 }
 

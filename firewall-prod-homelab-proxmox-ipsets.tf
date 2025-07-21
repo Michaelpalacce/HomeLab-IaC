@@ -156,37 +156,37 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
 
   cidr {
     name    = "192.168.1.242"
-    comment = ""
+    comment = proxmox_virtual_environment_vm.k3s-m3.name
   }
 
   cidr {
     name    = "192.168.1.247"
-    comment = ""
+    comment = proxmox_virtual_environment_vm.k3s-n3.name
   }
 
   cidr {
     name    = "192.168.1.55"
-    comment = ""
+    comment = proxmox_virtual_environment_vm.k3s-n2.name
   }
 
   cidr {
     name    = module.k3s-n5.vm_ipv4_address
-    comment = ""
+    comment = module.k3s-n5.vm_name
   }
 
   cidr {
     name    = "192.168.1.78"
-    comment = ""
+    comment = proxmox_virtual_environment_vm.k3s-m1.name
   }
 
   cidr {
     name    = "192.168.1.83"
-    comment = ""
+    comment = proxmox_virtual_environment_vm.k3s-m2.name
   }
 
   cidr {
     name    = "192.168.1.89"
-    comment = ""
+    comment = proxmox_virtual_environment_vm.k3s-n1.name
   }
 }
 

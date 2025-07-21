@@ -10,6 +10,8 @@ A public space to store my infrastructure as code components.
 export TF_VAR_proxmox_api_token="terraform@pve!provider=***"
 export TF_VAR_proxmox_ssh_password="***"
 export TF_VAR_cloudflare_api_key="***"
+# your pass mkpasswd -m sha-512 encrypted
+export TF_VAR_vm_pass="example"
 ```
 - Nodes with names
     - `prox-1`

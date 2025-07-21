@@ -39,6 +39,8 @@ resource "proxmox_virtual_environment_vm" "k3s_vm" {
 
   network_device {
     bridge = "vmbr0"
+    # This enables the firewall
+    firewall = true
   }
 
   tpm_state {

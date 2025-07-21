@@ -8,6 +8,11 @@ output "vm_id" {
   description = "The VM's ID"
 }
 
+output "vm_name" {
+  value       = proxmox_virtual_environment_vm.k3s_vm.name
+  description = "The VM's name"
+}
+
 output "node_name" {
   value       = proxmox_virtual_environment_vm.k3s_vm.node_name
   description = "The VM node's name"
