@@ -44,8 +44,6 @@ module "k3s_vms" {
       cpu_sockets       = 1
       memory_dedicated  = 4000
       vm_boot_disk_size = 400
-      disk_size         = 220
-      disk_datastore_id = "extra"
       cloud_image_url   = ""
     },
     "k3s-n1" = {
@@ -54,7 +52,7 @@ module "k3s_vms" {
       cpu_sockets       = 2
       memory_dedicated  = 24000
       vm_boot_disk_size = 400
-      disk_size         = 220
+      disk_size         = 440
       disk_datastore_id = "extra"
       cloud_image_url   = ""
     },
@@ -64,8 +62,6 @@ module "k3s_vms" {
       cpu_sockets       = 1
       memory_dedicated  = 4000
       vm_boot_disk_size = 64
-      disk_size         = 220
-      disk_datastore_id = "extra"
       cloud_image_url   = ""
     },
     "k3s-n2" = {
@@ -74,7 +70,7 @@ module "k3s_vms" {
       cpu_sockets       = 2
       memory_dedicated  = 16000
       vm_boot_disk_size = 64
-      disk_size         = 220
+      disk_size         = 440
       disk_datastore_id = "extra"
       cloud_image_url   = ""
     },
@@ -84,8 +80,6 @@ module "k3s_vms" {
       cpu_sockets       = 1
       memory_dedicated  = 4000
       vm_boot_disk_size = 64
-      disk_size         = 220
-      disk_datastore_id = "extra"
       cloud_image_url   = ""
     },
     "k3s-n3" = {
@@ -94,7 +88,7 @@ module "k3s_vms" {
       cpu_sockets       = 2
       memory_dedicated  = 16000
       vm_boot_disk_size = 64
-      disk_size         = 210
+      disk_size         = 430
       disk_datastore_id = "extra"
       cloud_image_url   = ""
     },
@@ -122,13 +116,14 @@ module "k3s_vms" {
     dedicated = each.value.memory_dedicated
   }
   vm_boot_disk_size = each.value.vm_boot_disk_size
-  vm_disks = [
-    {
-      interface    = "scsi1"
-      datastore_id = each.value.disk_datastore_id
-      cache        = "none"
-      discard      = "ignore"
-      size         = each.value.disk_size
-    }
-  ]
+  vm_disks = (lookup(each.value, "disk_size", null) != null ? [{
+    interface    = lookup(each.value, "disk_interface", "scsi1")        # Default interface for additional disk
+    datastore_id = lookup(each.value, "disk_datastore_id", "local-lvm") # Provide a sensible default if not specified
+    size         = each.value.disk_size
+    # Optional attributes for additional disk (use lookups with defaults or omit if not needed)
+    cache       = lookup(each.value, "disk_cache", "none")
+    discard     = lookup(each.value, "disk_discard", "ignore")
+    iothread    = lookup(each.value, "disk_iothread", false)
+    import_from = lookup(each.value, "disk_import_from", null)
+  }] : [])
 }

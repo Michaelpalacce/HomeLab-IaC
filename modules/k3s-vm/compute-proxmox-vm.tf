@@ -59,11 +59,10 @@ resource "proxmox_virtual_environment_vm" "k3s_vm" {
       interface    = disk.value.interface
       size         = disk.value.size
 
-      # `lookup` is for optional vars.
-      import_from = lookup(disk.value, "import_from", null)
-      cache       = lookup(disk.value, "cache", null)
-      discard     = lookup(disk.value, "discard", null)
-      iothread    = lookup(disk.value, "iothread", null)
+      import_from = disk.value.import_from
+      cache       = disk.value.cache
+      discard     = disk.value.discard
+      iothread    = disk.value.iothread
     }
   }
 
