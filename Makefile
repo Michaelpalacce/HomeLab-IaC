@@ -40,6 +40,6 @@ commit-arch: ## Commits the state file to nfs
 .PHONY: fetch-arch
 fetch-arch: ## Fetches the state and vars from NFS to local
 	cp /mnt/k3s/terraform/terraform.tfstate . && \
-	cp /mnt/k3s/terraform/.envrc . && \
+	cp /mnt/k3s/terraform/.envrc .
 
 
