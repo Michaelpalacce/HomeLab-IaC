@@ -79,8 +79,6 @@ resource "proxmox_virtual_environment_firewall_rules" "k3s_nodes" {
 
     "k3s-m3" = module.k3s_vms["k3s-m3"]
     "k3s-n3" = module.k3s_vms["k3s-n3"]
-
-    "k3s-n5" = module.k3s-n5
   }
 
   node_name = each.value.node_name
@@ -89,5 +87,15 @@ resource "proxmox_virtual_environment_firewall_rules" "k3s_nodes" {
   rule {
     security_group = proxmox_virtual_environment_cluster_firewall_security_group.k3s.name
     comment        = "(Terraform) k3s specific settings for ${each.key}."
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_rules" "k3s_n5" {
+  node_name = module.k3s-n5.node_name
+  vm_id     = module.k3s-n5.vm_id
+
+  rule {
+    security_group = proxmox_virtual_environment_cluster_firewall_security_group.k3s.name
+    comment        = "(Terraform) k3s specific settings for ${module.k3s-n5.vm_id}"
   }
 }

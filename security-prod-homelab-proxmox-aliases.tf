@@ -8,6 +8,12 @@ resource "proxmox_virtual_environment_firewall_alias" "proxy" {
   comment = "(Terraform) The proxy VM"
 }
 
+resource "proxmox_virtual_environment_firewall_alias" "tailscale" {
+  name    = "tailscale"
+  cidr    = "192.168.1.22"
+  comment = "(Terraform) Tailscale VPN VM"
+}
+
 resource "proxmox_virtual_environment_firewall_alias" "plex" {
   name    = "plex"
   cidr    = "192.168.1.20"
