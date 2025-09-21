@@ -40,9 +40,9 @@ module "k3s_vms" {
   for_each = {
     "k3s-m1" = {
       node_data         = data.proxmox_virtual_environment_node.prox-1.node_name
-      cpu_cores         = 2
+      cpu_cores         = 3
       cpu_sockets       = 1
-      memory_dedicated  = 4000
+      memory_dedicated  = 6000
       vm_boot_disk_size = 400
       cloud_image_url   = ""
     },
@@ -50,7 +50,7 @@ module "k3s_vms" {
       node_data         = data.proxmox_virtual_environment_node.prox-1.node_name
       cpu_cores         = 3
       cpu_sockets       = 2
-      memory_dedicated  = 24000
+      memory_dedicated  = 22000
       vm_boot_disk_size = 400
       disk_size         = 440
       disk_datastore_id = "extra"
@@ -58,9 +58,9 @@ module "k3s_vms" {
     },
     "k3s-m2" = {
       node_data         = data.proxmox_virtual_environment_node.prox-2.node_name
-      cpu_cores         = 2
+      cpu_cores         = 3
       cpu_sockets       = 1
-      memory_dedicated  = 4000
+      memory_dedicated  = 6000
       vm_boot_disk_size = 64
       cloud_image_url   = ""
     },
@@ -68,7 +68,7 @@ module "k3s_vms" {
       node_data         = data.proxmox_virtual_environment_node.prox-2.node_name
       cpu_cores         = 3
       cpu_sockets       = 2
-      memory_dedicated  = 16000
+      memory_dedicated  = 14000
       vm_boot_disk_size = 64
       disk_size         = 440
       disk_datastore_id = "extra"
@@ -76,9 +76,9 @@ module "k3s_vms" {
     },
     "k3s-m3" = {
       node_data         = data.proxmox_virtual_environment_node.prox-3.node_name
-      cpu_cores         = 2
+      cpu_cores         = 3
       cpu_sockets       = 1
-      memory_dedicated  = 4000
+      memory_dedicated  = 6000
       vm_boot_disk_size = 64
       cloud_image_url   = ""
     },
@@ -86,7 +86,7 @@ module "k3s_vms" {
       node_data         = data.proxmox_virtual_environment_node.prox-3.node_name
       cpu_cores         = 3
       cpu_sockets       = 2
-      memory_dedicated  = 16000
+      memory_dedicated  = 14000
       vm_boot_disk_size = 64
       disk_size         = 430
       disk_datastore_id = "extra"
