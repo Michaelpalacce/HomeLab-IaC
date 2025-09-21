@@ -243,13 +243,49 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
     log     = "nolog"
   }
 
+  # Make this accessible TCP/UDP on port 80/443
+
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow trusted devices access."
+    comment = "Allow trusted devices access 80."
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
+    proto   = "tcp"
+    dport   = "80"
     log     = "nolog"
   }
+
+  rule {
+    type    = "in"
+    action  = "ACCEPT"
+    comment = "Allow trusted devices access 443."
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
+    proto   = "tcp"
+    dport   = "443"
+    log     = "nolog"
+  }
+
+  rule {
+    type    = "in"
+    action  = "ACCEPT"
+    comment = "Allow trusted devices access 80."
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
+    proto   = "udp"
+    dport   = "80"
+    log     = "nolog"
+  }
+
+  rule {
+    type    = "in"
+    action  = "ACCEPT"
+    comment = "Allow trusted devices access 443."
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
+    proto   = "udp"
+    dport   = "443"
+    log     = "nolog"
+  }
+
+  # Make this accessible TCP/UDP on port 80/443
 
   rule {
     type    = "in"
