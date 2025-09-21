@@ -2,6 +2,12 @@
 # Manages Aliases in Proxmox
 # -------------------------------------------------------
 
+resource "proxmox_virtual_environment_firewall_alias" "cluster-lb" {
+  name    = "cluster-lb"
+  cidr    = "192.168.1.5"
+  comment = "(Terraform) The K3S Internal LB"
+}
+
 resource "proxmox_virtual_environment_firewall_alias" "proxy" {
   name    = "proxy"
   cidr    = "192.168.1.42"

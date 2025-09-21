@@ -25,6 +25,15 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "vpn" {
     dport   = "32400"
     log     = "nolog"
   }
+
+  rule {
+    type    = "out"
+    action  = "ACCEPT"
+    comment = "Allow to internal LB"
+    dest    = "dc/${proxmox_virtual_environment_firewall_alias.cluster-lb.id}"
+    log     = "nolog"
+  }
+
 }
 
 resource "proxmox_virtual_environment_cluster_firewall_security_group" "prox-management" {
@@ -144,7 +153,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "plex" {
     action  = "ACCEPT"
     comment = "Acept from internal TCP"
     proto   = "tcp"
-    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.rfc-1918.id}"
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
     dport   = "32400"
     log     = "nolog"
   }
@@ -154,7 +163,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "plex" {
     action  = "ACCEPT"
     comment = "Acept from internal UDP"
     proto   = "udp"
-    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.rfc-1918.id}"
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
     dport   = "32400"
     log     = "nolog"
   }

@@ -12,11 +12,6 @@ resource "proxmox_virtual_environment_firewall_ipset" "trusted" {
   }
 
   cidr {
-    name    = "172.16.0.0/12"
-    comment = "WIFIman. This is how I VPN in."
-  }
-
-  cidr {
     name    = "192.168.0.0/16"
     comment = "Vault. This is the internal Vault network"
   }
