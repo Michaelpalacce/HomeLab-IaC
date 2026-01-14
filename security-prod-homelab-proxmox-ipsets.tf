@@ -89,10 +89,10 @@ resource "proxmox_virtual_environment_firewall_ipset" "manage" {
     comment = "(Terraform) Phone on wifi."
   }
 
-  cidr {
-    name    = proxmox_virtual_environment_firewall_alias.tailscale.cidr
-    comment = "(Terraform) Raspberry-pi zero 2w Tailscale"
-  }
+  # cidr {
+  #   name    = proxmox_virtual_environment_firewall_alias.tailscale.cidr
+  #   comment = "(Terraform) Raspberry-pi zero 2w Tailscale"
+  # }
 
   cidr {
     name    = proxmox_virtual_environment_firewall_alias.macbook_air_m4.cidr
