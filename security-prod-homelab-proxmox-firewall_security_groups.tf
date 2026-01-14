@@ -24,14 +24,18 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "prox-man
 
   rule {
     type    = "in"
+    action  = "ACCEPT"
+    comment = "Allow From K3S"
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.k3s.id}"
+    log     = "nolog"
+  }
+
+  rule {
+    type    = "in"
     action  = "DROP"
     comment = "Drop from all other places"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.all.id}"
     log     = "nolog"
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 

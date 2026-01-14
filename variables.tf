@@ -5,18 +5,18 @@ variable "proxmox_endpoint" {
   description = "The Proxmox VE endpoint. Can be an IP or URL."
 }
 
-variable "proxmox_api_token" {
-  type        = string
-  sensitive   = true
-  nullable    = false
-  description = "The API token for the service account in format: terraform@pve!provider=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-}
-
 variable "proxmox_ssh_username" {
   type        = string
   sensitive   = false
   nullable    = false
   description = "The SSH username to use to ssh into the proxmox server"
+}
+
+variable "proxmox_api_token" {
+  type        = string
+  sensitive   = true
+  nullable    = false
+  description = "The API token for the service account in format: terraform@pve!provider=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 }
 
 variable "proxmox_ssh_password" {
@@ -33,9 +33,3 @@ variable "cloudflare_api_key" {
   description = "The global Cloudflare API key"
 }
 
-variable "vm_pass" {
-  type        = string
-  sensitive   = true
-  nullable    = false
-  description = "The password to set for the vm"
-}
