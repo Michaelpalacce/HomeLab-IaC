@@ -3,7 +3,7 @@
 # -------------------------------------------------------
 
 resource "proxmox_virtual_environment_cluster_firewall" "sgenov" {
-  enabled = true
+  enabled = false
 
   ebtables      = true
   input_policy  = "DROP"

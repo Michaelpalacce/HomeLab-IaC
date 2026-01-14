@@ -8,12 +8,12 @@ resource "proxmox_virtual_environment_firewall_ipset" "trusted" {
 
   cidr {
     name    = "10.1.0.0/16"
-    comment = "Home Lan Network. This is the default WIFI network."
+    comment = "(Terraform) Home Lan Network. This is the default WIFI network."
   }
 
   cidr {
     name    = "192.168.0.0/16"
-    comment = "Vault. This is the internal Vault network"
+    comment = "(Terraform) Vault. This is the internal Vault network"
   }
 }
 
@@ -40,11 +40,11 @@ resource "proxmox_virtual_environment_firewall_ipset" "public-lbs" {
 
   # Order is important, otherwise will force replacement
   cidr {
-    name    = "192.168.1.16"
+    name    = proxmox_virtual_environment_firewall_alias.sgenov_external_lb.cidr
     comment = "(Terraform) sgenov.dev"
   }
   cidr {
-    name    = "192.168.1.18"
+    name    = proxmox_virtual_environment_firewall_alias.adygenova_external_lb.cidr
     comment = "(Terraform) adygenova.com"
   }
 }
@@ -54,28 +54,28 @@ resource "proxmox_virtual_environment_firewall_ipset" "prox" {
   comment = "(Terraform) Holds the proxmox cluster IPs"
 
   cidr {
-    name    = "192.168.1.200"
+    name    = proxmox_virtual_environment_firewall_alias.prox_1.cidr
     comment = "(Terraform) prox-1.sgenov.dev"
   }
 
   cidr {
-    name    = "192.168.1.201"
+    name    = proxmox_virtual_environment_firewall_alias.prox_2.cidr
     comment = "(Terraform) prox-2-stefangenov.sgenov.dev"
   }
 
   cidr {
-    name    = "192.168.1.202"
+    name    = proxmox_virtual_environment_firewall_alias.prox_3.cidr
     comment = "(Terraform) prox-3.sgenov.dev"
   }
 
   # This is not in use
   cidr {
-    name    = "192.168.1.203"
+    name    = proxmox_virtual_environment_firewall_alias.prox_4.cidr
     comment = "(Terraform) prox-4.sgenov.dev"
   }
 
   cidr {
-    name    = "192.168.1.204"
+    name    = proxmox_virtual_environment_firewall_alias.prox_5.cidr
     comment = "(Terraform) prox-5.sgenov.dev"
   }
 }
@@ -85,27 +85,27 @@ resource "proxmox_virtual_environment_firewall_ipset" "manage" {
   comment = "(Terraform) Holds the management IPs. Devices that have administrator permissions."
 
   cidr {
-    name    = "10.1.0.169"
+    name    = proxmox_virtual_environment_firewall_alias.phone_wifi.cidr
     comment = "(Terraform) Phone on wifi."
   }
 
-  # cidr {
-  #   name    = "10.1.112.11"
-  #   comment = "(Terraform) Raspberry-pi zero 2w Tailscale"
-  # }
+  cidr {
+    name    = proxmox_virtual_environment_firewall_alias.tailscale.cidr
+    comment = "(Terraform) Raspberry-pi zero 2w Tailscale"
+  }
 
   cidr {
-    name    = "10.1.235.154"
+    name    = proxmox_virtual_environment_firewall_alias.macbook_air_m4.cidr
     comment = "(Terraform) Macbook Air M4"
   }
 
   cidr {
-    name    = "10.1.236.134"
+    name    = proxmox_virtual_environment_firewall_alias.pc_router.cidr
     comment = "(Terraform) PC connected to router."
   }
 
   cidr {
-    name    = "192.168.4.0/24"
+    name    = proxmox_virtual_environment_firewall_alias.management_backdoor.cidr
     comment = "(Terraform) Management LAN. Dirrect connection to Vault Router on last port. This is a physical backdoor."
   }
 }
@@ -115,37 +115,37 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   comment = "(Terraform) Holds all the IPs of the VMs where k3s will be installeHolds all the IPs of the VMs where k3s will be installed"
 
   cidr {
-    name    = "192.168.1.78"
+    name    = proxmox_virtual_environment_firewall_alias.k3s_m1.cidr
     comment = "(Terraform) k3s-m1"
   }
 
   cidr {
-    name    = "192.168.1.83"
+    name    = proxmox_virtual_environment_firewall_alias.k3s_m2.cidr
     comment = "(Terraform) k3s-m2"
   }
 
   cidr {
-    name    = "192.168.1.242"
+    name    = proxmox_virtual_environment_firewall_alias.k3s_m3.cidr
     comment = "(Terraform) k3s-m3"
   }
 
   cidr {
-    name    = "192.168.1.89"
+    name    = proxmox_virtual_environment_firewall_alias.k3s_n1.cidr
     comment = "k3s-n1"
   }
 
   cidr {
-    name    = "192.168.1.55"
+    name    = proxmox_virtual_environment_firewall_alias.k3s_n2.cidr
     comment = "(Terraform) k3s-n2"
   }
 
   cidr {
-    name    = "192.168.1.247"
+    name    = proxmox_virtual_environment_firewall_alias.k3s_n3.cidr
     comment = "(Terraform) k3s-n3"
   }
 
   cidr {
-    name    = "192.168.1.79"
+    name    = proxmox_virtual_environment_firewall_alias.k3s_n5.cidr
     comment = "(Terraform) k3s-n5"
   }
 }

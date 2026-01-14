@@ -2,40 +2,6 @@
 # Manages Security Groups in Proxmox
 # -------------------------------------------------------
 
-resource "proxmox_virtual_environment_cluster_firewall_security_group" "vpn" {
-  name    = "vpn"
-  comment = "(Terraform) Allows vpned devices to only access certain things"
-
-  rule {
-    type    = "out"
-    action  = "ACCEPT"
-    proto   = "udp"
-    comment = "Allow HTTP"
-    dest    = "dc/${proxmox_virtual_environment_firewall_alias.plex.id}"
-    dport   = "32400"
-    log     = "nolog"
-  }
-
-  rule {
-    type    = "out"
-    action  = "ACCEPT"
-    proto   = "tcp"
-    comment = "Allow HTTP"
-    dest    = "dc/${proxmox_virtual_environment_firewall_alias.plex.id}"
-    dport   = "32400"
-    log     = "nolog"
-  }
-
-  rule {
-    type    = "out"
-    action  = "ACCEPT"
-    comment = "Allow to internal LB"
-    dest    = "dc/${proxmox_virtual_environment_firewall_alias.cluster-lb.id}"
-    log     = "nolog"
-  }
-
-}
-
 resource "proxmox_virtual_environment_cluster_firewall_security_group" "prox-management" {
   name    = "prox-management"
   comment = "(Terraform) Proxmox nodes SG."
@@ -76,7 +42,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "proxy" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow From Management Devices"
+    comment = "(Terraform) Allow From Management Devices"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.manage.id}"
     log     = "nolog"
   }
@@ -84,54 +50,63 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "proxy" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    proto   = "tcp"
+    macro   = "SSH"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.k3s.id}"
-    comment = "Allow SSH from k3s to enable backups"
-    dport   = "22"
+    comment = "(Terraform) Allow SSH from k3s to enable backups"
     log     = "nolog"
   }
 
   rule {
     type    = "in"
     action  = "ACCEPT"
+    macro   = "HTTP"
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.cloudflare.id}"
+    comment = "(Terraform) Allow HTTP traffic through from cloudflare proxies"
+    log     = "nolog"
+
+  }
+  rule {
+    type    = "in"
+    action  = "ACCEPT"
     macro   = "HTTPS"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.cloudflare.id}"
-    comment = "Allow HTTPS traffic through from cloudflare proxies"
+    comment = "(Terraform) Allow HTTPS traffic through from cloudflare proxies"
     log     = "nolog"
   }
-
-  # rule {
-  #   type    = "in"
-  #   action  = "ACCEPT"
-  #   macro   = "HTTP"
-  #   source  = "+dc/${proxmox_virtual_environment_firewall_ipset.cloudflare.id}"
-  #   comment = "Allow HTTPS traffic through from cloudflare proxies"
-  #   log     = "nolog"
-  # }
 
   rule {
     type    = "in"
     action  = "DROP"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.all.id}"
-    comment = "Drop all other incoming"
+    comment = "(Terraform) Drop all other incoming"
     log     = "nolog"
   }
-
-  # rule {
-  #   type    = "out"
-  #   action  = "ACCEPT"
-  #   macro   = "HTTPS"
-  #   dest    = "+dc/${proxmox_virtual_environment_firewall_ipset.public-lbs.id}"
-  #   comment = "Allow access to the public Load Balancers"
-  #   log     = "nolog"
-  # }
 
   rule {
     type    = "out"
     action  = "ACCEPT"
     macro   = "HTTP"
     dest    = "+dc/${proxmox_virtual_environment_firewall_ipset.public-lbs.id}"
-    comment = "Allow access to the public Load Balancers"
+    comment = "(Terraform) Allow HTTP access to the public Load Balancers"
+    log     = "nolog"
+  }
+
+  rule {
+    type    = "out"
+    action  = "ACCEPT"
+    macro   = "HTTPS"
+    dest    = "+dc/${proxmox_virtual_environment_firewall_ipset.public-lbs.id}"
+    comment = "(Terraform) Allow HTTPS access to the public Load Balancers"
+    log     = "nolog"
+  }
+
+  rule {
+    type    = "out"
+    action  = "ACCEPT"
+    comment = "(Terraform) Allow access to plex"
+    proto   = "tcp"
+    dest    = proxmox_virtual_environment_firewall_alias.plex.cidr
+    dport   = "32400"
     log     = "nolog"
   }
 }
@@ -151,19 +126,17 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "plex" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Acept from internal TCP"
-    proto   = "tcp"
-    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
-    dport   = "32400"
+    comment = "Allow From Management Devices"
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.k3s.id}"
     log     = "nolog"
   }
 
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Acept from internal UDP"
-    proto   = "udp"
-    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
+    comment = "Acept from internal TCP"
+    proto   = "tcp"
+    source  = "+dc/${proxmox_virtual_environment_firewall_ipset.rfc-1918.id}"
     dport   = "32400"
     log     = "nolog"
   }
@@ -300,10 +273,30 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
+    comment = "Allow proxy access TCP 443."
+    proto   = "tcp"
+    source  = "dc/${proxmox_virtual_environment_firewall_alias.proxy.id}"
+    dport   = "443"
+    log     = "nolog"
+  }
+
+  rule {
+    type    = "in"
+    action  = "ACCEPT"
     comment = "Allow proxy access UDP."
     proto   = "udp"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.proxy.id}"
     dport   = "80"
+    log     = "nolog"
+  }
+
+  rule {
+    type    = "in"
+    action  = "ACCEPT"
+    comment = "Allow proxy access UDP 443."
+    proto   = "udp"
+    source  = "dc/${proxmox_virtual_environment_firewall_alias.proxy.id}"
+    dport   = "443"
     log     = "nolog"
   }
 }
