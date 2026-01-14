@@ -9,7 +9,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "prox-man
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow From Other Proxmox Instances"
+    comment = "(Terraform) Allow From Other Proxmox Instances"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.prox.id}"
     log     = "nolog"
   }
@@ -17,7 +17,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "prox-man
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow From Management Devices"
+    comment = "(Terraform) Allow From Management Devices"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.manage.id}"
     log     = "nolog"
   }
@@ -25,7 +25,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "prox-man
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow From K3S"
+    comment = "(Terraform) Allow From K3S"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.k3s.id}"
     log     = "nolog"
   }
@@ -33,7 +33,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "prox-man
   rule {
     type    = "in"
     action  = "DROP"
-    comment = "Drop from all other places"
+    comment = "(Terraform) Drop from all other places"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.all.id}"
     log     = "nolog"
   }
@@ -122,7 +122,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "plex" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow From Management Devices"
+    comment = "(Terraform) Allow From Management Devices"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.manage.id}"
     log     = "nolog"
   }
@@ -130,7 +130,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "plex" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow From Management Devices"
+    comment = "(Terraform) Allow From Management Devices"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.k3s.id}"
     log     = "nolog"
   }
@@ -138,7 +138,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "plex" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Acept from internal TCP"
+    comment = "(Terraform) Acept from internal TCP"
     proto   = "tcp"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.rfc-1918.id}"
     dport   = "32400"
@@ -154,7 +154,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "pingable
     type    = "in"
     action  = "ACCEPT"
     macro   = "Ping"
-    comment = "Allows the resource to be pinged"
+    comment = "(Terraform) Allows the resource to be pinged"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.rfc-1918.id}"
     log     = "nolog"
   }
@@ -168,7 +168,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "no-comm-
     type    = "out"
     action  = "ACCEPT"
     macro   = "DNS"
-    comment = "Provides DNS to the resource"
+    comment = "(Terraform) Provides DNS to the resource"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.vault_router.id}"
     log     = "nolog"
   }
@@ -176,7 +176,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "no-comm-
   rule {
     type    = "out"
     action  = "DROP"
-    comment = "Reject ALL internal communicating based on rfc-1918"
+    comment = "(Terraform) Reject ALL internal communicating based on rfc-1918"
     dest    = "+dc/${proxmox_virtual_environment_firewall_ipset.rfc-1918.id}"
     log     = "nolog"
   }
@@ -190,7 +190,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
     type    = "in"
     action  = "ACCEPT"
     macro   = "Ping"
-    comment = "Makes the cluster pingable"
+    comment = "(Terraform) Makes the cluster pingable"
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
     log     = "nolog"
   }
@@ -198,7 +198,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow connections from other k3s nodes."
+    comment = "(Terraform) Allow connections from other k3s nodes."
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.k3s.id}"
     log     = "nolog"
   }
@@ -206,7 +206,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow management access."
+    comment = "(Terraform) Allow management access."
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.manage.id}"
     log     = "nolog"
   }
@@ -214,7 +214,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "DROP"
-    comment = "Drop SSH"
+    comment = "(Terraform) Drop SSH"
     macro   = "SSH"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.all.id}"
     log     = "nolog"
@@ -225,7 +225,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow trusted devices access 80."
+    comment = "(Terraform) Allow trusted devices access 80."
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
     proto   = "tcp"
     dport   = "80"
@@ -235,7 +235,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow trusted devices access 443."
+    comment = "(Terraform) Allow trusted devices access 443."
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
     proto   = "tcp"
     dport   = "443"
@@ -245,7 +245,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow trusted devices access 80."
+    comment = "(Terraform) Allow trusted devices access 80."
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
     proto   = "udp"
     dport   = "80"
@@ -255,7 +255,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow trusted devices access 443."
+    comment = "(Terraform) Allow trusted devices access 443."
     source  = "+dc/${proxmox_virtual_environment_firewall_ipset.trusted.id}"
     proto   = "udp"
     dport   = "443"
@@ -267,7 +267,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow proxy access TCP."
+    comment = "(Terraform) Allow proxy access TCP."
     proto   = "tcp"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.proxy.id}"
     dport   = "80"
@@ -277,7 +277,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow proxy access TCP 443."
+    comment = "(Terraform) Allow proxy access TCP 443."
     proto   = "tcp"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.proxy.id}"
     dport   = "443"
@@ -287,7 +287,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow proxy access UDP."
+    comment = "(Terraform) Allow proxy access UDP."
     proto   = "udp"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.proxy.id}"
     dport   = "80"
@@ -297,7 +297,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k3s" {
   rule {
     type    = "in"
     action  = "ACCEPT"
-    comment = "Allow proxy access UDP 443."
+    comment = "(Terraform) Allow proxy access UDP 443."
     proto   = "udp"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.proxy.id}"
     dport   = "443"
