@@ -40,73 +40,12 @@ resource "proxmox_virtual_environment_firewall_ipset" "public-lbs" {
 
   # Order is important, otherwise will force replacement
   cidr {
-    name    = "192.168.1.10"
-    comment = "Excalidraw. Dashboard for drawing."
+    name    = "192.168.1.16"
+    comment = "(Terraform) sgenov.dev"
   }
   cidr {
-    name    = "192.168.1.11"
-    comment = "It-Tools. Helpful tools for it administration."
-  }
-  cidr {
-    name    = "192.168.1.12"
-    comment = "Cyberchef. Helpful tools for it administration."
-  }
-  cidr {
-    name    = "192.168.1.13"
-    comment = "Mealie. Self-hosted recipies."
-  }
-  cidr {
-    name    = "192.168.1.14"
-    comment = "Niolesk. Kroki diagrams."
-  }
-  cidr {
-    name    = "192.168.1.15"
-    comment = "Kavita. Books!!!."
-  }
-  cidr {
-    name    = "192.168.1.6"
-    comment = "My website. sgenov.dev"
-  }
-  cidr {
-    name    = "192.168.1.7"
-    comment = "Wallabag. Self hosted pocket alternative."
-  }
-  cidr {
-    name    = "192.168.1.8"
-    comment = "Paperless-NGX. For document storage."
-  }
-  cidr {
-    name    = "192.168.1.9"
-    comment = "Firefly. Budgeting software."
-  }
-}
-
-resource "proxmox_virtual_environment_firewall_ipset" "manage" {
-  name    = "manage"
-  comment = "(Terraform) Holds the management IPs. Devices that have administrator permissions."
-
-  cidr {
-    name    = "10.1.0.169"
-    comment = "Phone on wifi."
-  }
-
-  cidr {
-    name    = "10.1.235.154"
-    comment = "Macbook Air M4"
-  }
-
-  cidr {
-    name    = "10.1.236.134"
-    comment = "PC connected to router."
-  }
-
-  cidr {
-    name    = "192.168.4.0/24"
-    comment = "Management LAN. Dirrect connection to Vault Router on last port. This is a physical backdoor."
-  }
-
-  lifecycle {
-    prevent_destroy = true
+    name    = "192.168.1.18"
+    comment = "(Terraform) adygenova.com"
   }
 }
 
@@ -116,32 +55,58 @@ resource "proxmox_virtual_environment_firewall_ipset" "prox" {
 
   cidr {
     name    = "192.168.1.200"
-    comment = "prox-1.sgenov.dev"
+    comment = "(Terraform) prox-1.sgenov.dev"
   }
 
   cidr {
     name    = "192.168.1.201"
-    comment = "prox-2.sgenov.dev"
+    comment = "(Terraform) prox-2-stefangenov.sgenov.dev"
   }
 
   cidr {
     name    = "192.168.1.202"
-    comment = "prox-3.sgenov.dev"
+    comment = "(Terraform) prox-3.sgenov.dev"
   }
 
   # This is not in use
   cidr {
     name    = "192.168.1.203"
-    comment = "prox-4.sgenov.dev"
+    comment = "(Terraform) prox-4.sgenov.dev"
   }
 
   cidr {
     name    = "192.168.1.204"
-    comment = "prox-5.sgenov.dev"
+    comment = "(Terraform) prox-5.sgenov.dev"
+  }
+}
+
+resource "proxmox_virtual_environment_firewall_ipset" "manage" {
+  name    = "manage"
+  comment = "(Terraform) Holds the management IPs. Devices that have administrator permissions."
+
+  cidr {
+    name    = "10.1.0.169"
+    comment = "(Terraform) Phone on wifi."
   }
 
-  lifecycle {
-    prevent_destroy = true
+  # cidr {
+  #   name    = "10.1.112.11"
+  #   comment = "(Terraform) Raspberry-pi zero 2w Tailscale"
+  # }
+
+  cidr {
+    name    = "10.1.235.154"
+    comment = "(Terraform) Macbook Air M4"
+  }
+
+  cidr {
+    name    = "10.1.236.134"
+    comment = "(Terraform) PC connected to router."
+  }
+
+  cidr {
+    name    = "192.168.4.0/24"
+    comment = "(Terraform) Management LAN. Dirrect connection to Vault Router on last port. This is a physical backdoor."
   }
 }
 
@@ -150,38 +115,38 @@ resource "proxmox_virtual_environment_firewall_ipset" "k3s" {
   comment = "(Terraform) Holds all the IPs of the VMs where k3s will be installeHolds all the IPs of the VMs where k3s will be installed"
 
   cidr {
-    name    = module.k3s_vms["k3s-m3"].vm_ipv4_address
-    comment = module.k3s_vms["k3s-m3"].vm_name
+    name    = "192.168.1.78"
+    comment = "(Terraform) k3s-m1"
   }
 
   cidr {
-    name    = module.k3s_vms["k3s-n3"].vm_ipv4_address
-    comment = module.k3s_vms["k3s-n3"].vm_name
+    name    = "192.168.1.83"
+    comment = "(Terraform) k3s-m2"
   }
 
   cidr {
-    name    = module.k3s_vms["k3s-n2"].vm_ipv4_address
-    comment = module.k3s_vms["k3s-n2"].vm_name
+    name    = "192.168.1.242"
+    comment = "(Terraform) k3s-m3"
   }
 
   cidr {
-    name    = module.k3s-n5.vm_ipv4_address
-    comment = module.k3s-n5.vm_name
+    name    = "192.168.1.89"
+    comment = "k3s-n1"
   }
 
   cidr {
-    name    = module.k3s_vms["k3s-m1"].vm_ipv4_address
-    comment = module.k3s_vms["k3s-m1"].vm_name
+    name    = "192.168.1.55"
+    comment = "(Terraform) k3s-n2"
   }
 
   cidr {
-    name    = module.k3s_vms["k3s-m2"].vm_ipv4_address
-    comment = module.k3s_vms["k3s-m2"].vm_name
+    name    = "192.168.1.247"
+    comment = "(Terraform) k3s-n3"
   }
 
   cidr {
-    name    = module.k3s_vms["k3s-n1"].vm_ipv4_address
-    comment = module.k3s_vms["k3s-n1"].vm_name
+    name    = "192.168.1.79"
+    comment = "(Terraform) k3s-n5"
   }
 }
 

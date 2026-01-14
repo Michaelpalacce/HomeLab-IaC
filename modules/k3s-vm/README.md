@@ -1,4 +1,4 @@
-# k3s-vm
+# k3s-vm (ARCHIVED)
 
 Helper module to bring up a k3s ready VM.
 

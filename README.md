@@ -1,13 +1,14 @@
 # HomeLab-IaC
 
-A public space to store my infrastructure as code components.
+A public space to store my infrastructure as code components. This is used primarily for setting up configuration and firewall settings
 
 ## Disclaimer
 
-While this has been a great experiment, Terraform in my opinion is not ideal for creating and managing Virtual Machines, however it's good
+> [!warning]
+> While this has been a great experiment, Terraform in my opinion is not ideal for creating and managing Virtual Machines, however it's good
 for handling some parts of the infrastructure.
-
-Virtual Machines in my infrastructure should be migrated eventually to working with Cluster API. However operations currently are flowing
+>
+> Virtual Machines in my infrastructure should be migrated eventually to working with Cluster API. However operations currently are flowing
 smoothly and I don't want to recreate my cluster, yet.
 
 ## Dependencies
