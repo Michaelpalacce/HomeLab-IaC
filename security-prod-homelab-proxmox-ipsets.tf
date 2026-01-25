@@ -44,6 +44,10 @@ resource "proxmox_virtual_environment_firewall_ipset" "public-lbs" {
     comment = "(Terraform) sgenov.dev"
   }
   cidr {
+    name    = proxmox_virtual_environment_firewall_alias.replacedby_external_lb.cidr
+    comment = "(Terraform) replacedby.net"
+  }
+  cidr {
     name    = proxmox_virtual_environment_firewall_alias.adygenova_external_lb.cidr
     comment = "(Terraform) adygenova.com"
   }

@@ -20,6 +20,12 @@ resource "proxmox_virtual_environment_firewall_alias" "sgenov_external_lb" {
   comment = "(Terraform) Istio External sgenov.dev LB"
 }
 
+resource "proxmox_virtual_environment_firewall_alias" "replacedby_external_lb" {
+  name    = "replacedby-external"
+  cidr    = "192.168.1.17"
+  comment = "(Terraform) Istio External replacedby.net LB"
+}
+
 resource "proxmox_virtual_environment_firewall_alias" "adygenova_external_lb" {
   name    = "adygenova-external"
   cidr    = "192.168.1.18"
