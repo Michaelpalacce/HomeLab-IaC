@@ -60,6 +60,12 @@ resource "proxmox_virtual_environment_firewall_alias" "vault_router" {
 # Management Aliases
 ###################
 
+resource "proxmox_virtual_environment_firewall_alias" "laptop_wifi" {
+  name    = "laptop-wifi"
+  cidr    = "10.1.219.15"
+  comment = "(Terraform) Work Laptop on wifi."
+}
+
 resource "proxmox_virtual_environment_firewall_alias" "phone_wifi" {
   name    = "phone-wifi"
   cidr    = "10.1.0.169"
